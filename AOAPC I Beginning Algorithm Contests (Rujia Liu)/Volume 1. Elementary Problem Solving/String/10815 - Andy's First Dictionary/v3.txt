@@ -1,0 +1,100 @@
+#include <cstdio>
+#include <string.h>
+#include <iostream>
+#include <cctype>
+#include <string>
+
+using namespace std;
+#define MaxInput 50000001
+
+bool isLetter(const char a){
+	if (((a >= 'a') && (a <= 'z')) || ((a >= 'A') && (a <= 'Z')))
+		return 1;
+	else return 0;
+}
+
+struct wordInDict
+{
+	char *word;
+	wordInDict *next;
+};
+
+int main() {
+
+	char *strInput = new char[MaxInput];
+	int len = fread(strInput, 1, MaxInput, stdin);
+	wordInDict *begin = NULL, *last, *buf;
+	wordInDict words[5000];
+	int i = 0, j = 0;
+	bool createWord = true, newWord = true;
+
+	for (int k = 0; k < len; k++){
+		if (isLetter(strInput[k]))
+			if (strInput[k] >= 'A' && strInput[k] <= 'Z')
+				strInput[k] += 32;
+	}
+
+	while (true){
+		if (newWord)
+			last = &(words[j++]);
+		for (i; i < len; i++){
+			if (createWord){
+				if (isLetter(strInput[i])){
+					last->word = strInput + i;
+					createWord = false;
+				}
+			}
+			else{
+				if (!isLetter(strInput[i])){
+					strInput[i] = 0;
+					createWord = true;
+					i++;
+					break;
+				}
+			}
+		}
+		if (i >= len)
+			break;
+		
+		if (begin == NULL){
+			begin = last;
+			begin->next = NULL;
+		}
+		buf = NULL;
+		wordInDict *act = begin;
+		while (last != begin) {
+			if (act != NULL && _stricmp(last->word, act->word) == 1)
+					buf = act;				
+			else if (act == NULL || _stricmp(last->word, act->word) == -1){
+				if (buf != NULL){
+					last->next = buf->next;
+					buf->next = last;
+					newWord = true;
+					break;
+				}
+				else{
+					last->next = begin;
+					begin = last;
+					newWord = true;
+					break;
+				}
+			}
+			else if (_stricmp(last->word, act->word) == 0){
+				newWord = false;
+				break;
+			}
+		act = act->next;
+		} 		
+	}
+	last = begin;
+	if (last != NULL)
+		do{
+			cout << last->word << endl;
+			last = last->next;
+		} while (last != NULL);
+
+	delete[] strInput;
+
+
+	return 0;
+}
