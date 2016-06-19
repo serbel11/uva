@@ -16,7 +16,7 @@ struct number
 
 bool flag = false;
 
-void Print(number* begin  ){
+void Print(number* begin){
 	if (begin != NULL)
 	{
 		Print(begin->left);
