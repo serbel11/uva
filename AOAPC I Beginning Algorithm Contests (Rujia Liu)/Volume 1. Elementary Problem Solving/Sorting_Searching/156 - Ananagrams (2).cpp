@@ -29,8 +29,8 @@ int sumSymb(string s) {
 void quick_sort(string s, int beginPos, int endPos)
 {
 	int i = beginPos, j = endPos - 1;
-	char compareWith = s[(beginPos - endPos)/2];
-	while (i < j){
+	char compareWith = s[(endPos - beginPos) / 2];
+	while (true){
 		while (s[i] < compareWith)
 			i++;
 		while (s[j] > compareWith)
@@ -38,20 +38,25 @@ void quick_sort(string s, int beginPos, int endPos)
 		char buf = s[i];
 		s[i] = s[j];
 		s[j] = buf;
-
+		if (i <= j)
+			break;
 	}
+	if (j > 0) quick_sort(s, beginPos, (endPos - beginPos) / 2 - 1);
+	if (endPos > i) quick_sort(s, (endPos - beginPos) / 2 + 1, endPos);
 }
 
 int main(){
 	string str;
 	word words[501];
-	while (cin >> str){
+	/*while (cin >> str){
 		if (str == "#")
 			break;
 		if (words[sumSymb(str)].count == 0){
 
 		}
-	}
+	}*/
+	cin >> str;
+	quick_sort(str, 0, str.length());
 
 
 	return 0;
