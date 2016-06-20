@@ -26,22 +26,25 @@ int sumSymb(string s) {
 	return sum;
 }
 
-void quick_sort(string s, int beginPos, int endPos)
+void quick_sort(string &s, int beginPos, int endPos)
 {
 	int i = beginPos, j = endPos - 1;
 	char compareWith = s[(endPos - beginPos) / 2];
 	while (true){
 		while (s[i] < compareWith)
 			i++;
-		while (s[j] > compareWith)
+		while (s[j] >= compareWith)
 			j--;
-		char buf = s[i];
-		s[i] = s[j];
-		s[j] = buf;
-		if (i <= j)
+		
+		if (i <= j){
+			char buf = s[i];
+			s[i] = s[j];
+			s[j] = buf;
+		}
+		if (i >= j)
 			break;
 	}
-	if (j > 0) quick_sort(s, beginPos, (endPos - beginPos) / 2 - 1);
+	if (j > beginPos) quick_sort(s, beginPos, (endPos - beginPos) / 2);
 	if (endPos > i) quick_sort(s, (endPos - beginPos) / 2 + 1, endPos);
 }
 
@@ -57,7 +60,7 @@ int main(){
 	}*/
 	cin >> str;
 	quick_sort(str, 0, str.length());
-
+	cout << str;
 
 	return 0;
 }
