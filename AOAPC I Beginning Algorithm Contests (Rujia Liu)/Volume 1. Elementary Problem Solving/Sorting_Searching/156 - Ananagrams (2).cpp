@@ -20,6 +20,24 @@ int sumSymb(string s) {
 	return sum;
 }
 
+void bubble_sort(string s)
+{
+	for (int i = 0; i < s.length() - 1; i++) {
+		bool flag = false;
+		for (int j = 0; j < s.length() - i - 1; j++) {
+			if (s[j] > s[j + 1]) {
+				char buf = s[j];
+				s[j] = s[j + 1];
+				s[j + 1] = buf;
+				flag = true;
+			}
+		}
+
+		if (!flag)
+			break;
+	}
+}
+
 int main(){
 	
 }
