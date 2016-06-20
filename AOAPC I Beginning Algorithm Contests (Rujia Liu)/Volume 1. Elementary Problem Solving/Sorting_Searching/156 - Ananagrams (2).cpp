@@ -7,6 +7,12 @@
 
 using namespace std;
 
+struct word
+{
+	string key;
+	int count;
+};
+
 string convert(string s) {
 	std::transform(s.begin(), s.end(), s.begin(), ::tolower);
 	sort(s.begin(), s.end());
@@ -20,24 +26,33 @@ int sumSymb(string s) {
 	return sum;
 }
 
-void bubble_sort(string s)
+void quick_sort(string s, int beginPos, int endPos)
 {
-	for (int i = 0; i < s.length() - 1; i++) {
-		bool flag = false;
-		for (int j = 0; j < s.length() - i - 1; j++) {
-			if (s[j] > s[j + 1]) {
-				char buf = s[j];
-				s[j] = s[j + 1];
-				s[j + 1] = buf;
-				flag = true;
-			}
-		}
+	int i = beginPos, j = endPos - 1;
+	char compareWith = s[(beginPos - endPos)/2];
+	while (i < j){
+		while (s[i] < compareWith)
+			i++;
+		while (s[j] > compareWith)
+			j--;
+		char buf = s[i];
+		s[i] = s[j];
+		s[j] = buf;
 
-		if (!flag)
-			break;
 	}
 }
 
 int main(){
-	
+	string str;
+	word words[501];
+	while (cin >> str){
+		if (str == "#")
+			break;
+		if (words[sumSymb(str)].count == 0){
+
+		}
+	}
+
+
+	return 0;
 }
