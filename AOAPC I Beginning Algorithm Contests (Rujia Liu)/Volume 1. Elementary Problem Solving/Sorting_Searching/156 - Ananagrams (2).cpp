@@ -58,48 +58,6 @@ int strCompare(string s1, string s2) {
 	return s1.length() - s2.length();
 }
 
-int Insert(word* &begin, string s){
-	word *actual;
-	if (begin == NULL){
-		word *newElement = new word;
-		begin = newElement;
-		begin->data = s;
-		begin->left = begin->right = NULL;
-		begin->count = 1;
-	}
-	else{
-		actual = begin;
-		while (true){
-			word* buf = actual;
-			int lr = 0;
-			if (strCompare(s, actual->data) < 0){
-				actual = actual->right;
-				lr = 1;
-			}
-			else if (strCompare(s, actual->data) > 0)
-				actual = actual->left;
-			else{
-				actual->count++;
-				break;
-			}
-
-			if (actual == NULL){
-				word *newElement = new word;
-				actual = newElement;
-				actual->data = s;
-				actual->left = actual->right = NULL;
-				if (lr == 0)
-					buf->left = actual;
-				else
-					buf->right = actual;
-				actual->count = 1;
-				break;
-			}
-		}
-	}
-	return 0;
-}
-
 int InsertLetter(letter* &begin, char c){
 	letter *actual;
 	if (begin == NULL){
@@ -113,7 +71,7 @@ int InsertLetter(letter* &begin, char c){
 		while (true){
 			letter* buf = actual;
 			int flag = 0;
-			if (c < actual->l){
+			if (c > actual->l){
 				actual = actual->right;
 				flag = 1;
 			}
@@ -140,7 +98,8 @@ void Print(word* begin){
 	if (begin != NULL)
 	{
 		Print(begin->left);
-		cout << begin->data << endl;
+		if (begin->count == 1)
+			cout << begin->data << endl;
 		Print(begin->right);
 	}
 }
@@ -156,17 +115,72 @@ string sort_word(letter* begin, string &s){
 	return s;
 }
 
+int Insert(word* &begin, string s){
+	word *actual;
+	if (begin == NULL){
+		word *newElement = new word;
+		begin = newElement;
+		begin->data = s;
+		begin->left = begin->right = NULL;
+		begin->count = 1;
+	}
+	else{
+		actual = begin;
+		while (true){
+			word* buf = actual;
+			int lr = 0;
+
+			letter* beg = NULL;
+			string toCompareWord = "";
+			for (int i = 0; i < s.length(); i++)
+				InsertLetter(beg, s[i]);
+			sort_word(beg, toCompareWord);
+
+			beg = NULL;
+			string toCompareActual = "";
+			for (int i = 0; i < actual->data.length(); i++)
+				InsertLetter(beg, actual->data[i]);
+			sort_word(beg, toCompareActual);
+
+			if (strCompare(toCompareWord, toCompareActual) < 0){
+				actual = actual->right;
+				lr = 1;
+			}
+			else if (strCompare(toCompareWord, toCompareActual) > 0)
+				actual = actual->left;
+			else{
+				actual->count++;
+				break;
+			}
+
+			if (actual == NULL){
+				word *newElement = new word;
+				actual = newElement;
+				actual->data = s;
+				actual->left = actual->right = NULL;
+				if (lr == 0)
+					buf->left = actual;
+				else
+					buf->right = actual;
+				actual->count = 1;
+				break;
+			}
+		}
+	}
+	return 0;
+}
+
 int main(){
 	string str;
 	int i;
+	word* begin = NULL;
+	while (cin >> str){
+		if (str == "#")
+			break;
+		Insert(begin, str);
+	}
 
-
-	letter* begin = NULL;
-	string buf = "wertyuawgn";
-	for (int i = 0; i < buf.length(); i++)
-		InsertLetter(begin, buf[i]);
-	
-	cout << sort_word(begin, buf);
+	Print(begin);
 
 	return 0;
 }
