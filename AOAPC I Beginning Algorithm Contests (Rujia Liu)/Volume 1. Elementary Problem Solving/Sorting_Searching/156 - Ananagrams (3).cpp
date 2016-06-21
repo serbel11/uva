@@ -169,11 +169,8 @@ int main(){
 			i--;
 			break;
 		}
-		if (i == 0){
-			str[i].data = buf;
-			str[i].count++;
-		}
-
+		
+		int flag = 0;
 		for (int j = 0; j < i; j++){
 			string lowerBuf = toLower(buf),
 				   lowerAct = toLower(str[j].data);
@@ -192,27 +189,22 @@ int main(){
 					if (strCompare(toCompareActual, toCompareWord) == 0){
 						str[j].count++;
 						i--;
-						break;
-					}
-					else{
-						str[i].data = buf;
-						str[i].count++;
+						flag = 1;
 						break;
 					}
 			}
-			else {
-				str[i].data = buf;
-				str[i].count++;
-				break;
-			}
-			
+		}
+		if (flag == 0){
+			str[i].data = buf;
+			str[i].count++;
 		}
 		i++;	
 	}
-
-	for (int j = 0; j < i; j++)
+	word* begin = NULL;
+	for (int j = 0; j <= i; j++)
 		if (str[j].count == 1)
-			cout << str[j].data << endl;
+			Insert(begin, str[j].data);
+	Print(begin);
 
 	return 0;
 }
