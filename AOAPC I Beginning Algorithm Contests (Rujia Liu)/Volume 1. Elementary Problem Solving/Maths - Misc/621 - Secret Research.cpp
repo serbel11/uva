@@ -6,14 +6,26 @@
 using namespace std;
 
 int main() {
-	int n, q;
-	cin >> n;
+	int n;
+	string str;
+	scanf("%d", &n);
 	while (n--){
-		cin >> q;
-		if (q == 1 || q == 4 || q = 78){
+		cin >> str;
+		if ((str == "1") || (str == "4") || (str == "78")){
 			cout << "+" << endl;
-			break;
+			continue;
+		}	
+		if (str[str.length() - 1] == '5' && str[str.length() - 2] == '3'){
+			cout << "-" << endl;
+			continue;
 		}
+		if (str[str.length() - 1] == '4' && str[0] == '9'){
+			cout << "*" << endl;
+			continue;
+		}
+
+		cout << "?" << endl;
+
 	}
 
 
