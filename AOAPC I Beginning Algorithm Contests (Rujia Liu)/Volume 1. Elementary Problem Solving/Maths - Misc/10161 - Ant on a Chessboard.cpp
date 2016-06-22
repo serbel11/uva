@@ -13,14 +13,16 @@ int main() {
 			break;
 
 		int q = 1;
-		for (int i = 1; i*i < n; i++){
+		for (int i = 1; i*i < n; ){
+			
+			i++;
 			q = i;
 		}
 		int mid = q * q - (q - 1), 
 			min = q * q - 2 * (q - 1);
 
 		if (n == mid){
-			x = y = q;
+			printf("%d %d\n", q, q);
 			continue;
 		}
 
