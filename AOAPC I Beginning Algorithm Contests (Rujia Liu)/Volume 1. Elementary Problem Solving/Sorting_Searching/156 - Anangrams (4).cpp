@@ -27,17 +27,17 @@ int strCompare(string s1, string s2) {
 
 int main(){
 	string str;
-	char hashcode[26][1000];
+	string hashcode[1000];
 	string words[1000];
 	int count[1000] = { 0 }, n;
 	while (cin >> str){
-		char bufHash[26] = { 'a' };
+		string bufHash = "";
 		string bufStr = toLower(str);
 		if (str == "#")
 			break;
 
 		for (int i = 0; i < bufStr.length; i++){
-			bufHash[bufStr[i] - 'a']++;
+			
 		}
 
 	}
