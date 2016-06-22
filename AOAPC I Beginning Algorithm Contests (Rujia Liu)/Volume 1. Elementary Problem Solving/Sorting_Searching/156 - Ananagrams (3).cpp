@@ -108,7 +108,7 @@ void Print(word* begin){
 }
 
 string sort_word(letter* begin, string &s){
-	
+
 	if (begin != NULL)
 	{
 		sort_word(begin->left, s);
@@ -137,7 +137,7 @@ int Insert(word* &begin, string s){
 			}
 			else if (strCompare(s, actual->data) > 0)
 				actual = actual->left;
-			
+
 
 			if (actual == NULL){
 				word *newElement = new word;
@@ -162,43 +162,44 @@ int main(){
 		str[i].count = 0;
 
 	int i = 0;
-	
+
 	while (true){
 		cin >> buf;
 		if (buf == "#"){
 			i--;
 			break;
 		}
-		
+
 		int flag = 0;
 		for (int j = 0; j < i; j++){
 			string lowerBuf = toLower(buf),
-				   lowerAct = toLower(str[j].data);
+				lowerAct = toLower(str[j].data);
 			string toCompareActual = "", toCompareWord = "";
 			if (sumSymb(lowerBuf) == sumSymb(lowerAct) && lowerBuf.length() == lowerAct.length()){
 				letter* beg = NULL;
-				for (int k = 0; k < buf.length(); k++)
+				unsigned int k;
+				for (k = 0; k < buf.length(); k++)
 					InsertLetter(beg, lowerBuf[k]);
 				sort_word(beg, toCompareWord);
 
-				beg = NULL;				
-				for (int k = 0; k < str[j].data.length(); k++)
+				beg = NULL;
+				for (k = 0; k < str[j].data.length(); k++)
 					InsertLetter(beg, lowerAct[k]);
 				sort_word(beg, toCompareActual);
 
-					if (strCompare(toCompareActual, toCompareWord) == 0){
-						str[j].count++;
-						i--;
-						flag = 1;
-						break;
-					}
+				if (strCompare(toCompareActual, toCompareWord) == 0){
+					str[j].count++;
+					i--;
+					flag = 1;
+					break;
+				}
 			}
 		}
 		if (flag == 0){
 			str[i].data = buf;
 			str[i].count++;
 		}
-		i++;	
+		i++;
 	}
 	word* begin = NULL;
 	for (int j = 0; j <= i; j++)
