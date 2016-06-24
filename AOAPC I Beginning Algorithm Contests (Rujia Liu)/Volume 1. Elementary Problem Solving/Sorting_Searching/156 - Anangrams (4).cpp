@@ -35,9 +35,17 @@ int main(){
 		string bufStr = toLower(str);
 		if (str == "#")
 			break;
-
-		for (int i = 0; i < bufStr.length; i++){
-			
+		unsigned int hash[20];
+		for (int i = 0; i < 20; i++){
+			hash[i] = 0;
+		}
+		for (int i = 0; i < bufStr.length(); i++){
+			int cnt = 1;
+			for (int j = 0; j < bufStr.length(); j++){
+				if (bufStr[i] == bufStr[j] && i != j)
+					cnt++;
+			}
+			hash[bufStr[i] - 'a'] &= (int)pow(2, cnt);
 		}
 
 	}
